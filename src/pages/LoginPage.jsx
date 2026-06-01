@@ -74,9 +74,7 @@ const LoginPage = () => {
           
           <div className="relative z-10">
             <Link to="/" className="flex items-center gap-2 mb-16">
-              <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white shadow-sm">
-                <Zap size={18} className="fill-white" />
-              </div>
+              <img src="/logo.png" alt="Pelet Logo" className="w-8 h-8 object-contain drop-shadow-sm" />
               <span className="font-semibold text-indigo-600">Pelet</span>
             </Link>
 

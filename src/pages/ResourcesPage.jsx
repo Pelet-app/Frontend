@@ -21,9 +21,7 @@ const ResourcesPage = () => {
       <nav className="flex items-center justify-between px-8 py-4 bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-slate-100">
         <div className="flex items-center gap-12">
           <Link to="/" className="flex items-center gap-2">
-            <div className="w-6 h-6 bg-indigo-600 rounded flex items-center justify-center text-white">
-              <Zap size={14} className="fill-white" />
-            </div>
+            <img src="/logo.png" alt="Pelet Logo" className="w-8 h-8 object-contain drop-shadow-sm" />
             <span className="text-lg font-bold text-indigo-600 tracking-tight">Pelet</span>
           </Link>
           <div className="hidden md:flex gap-6 text-sm font-medium text-slate-600">

@@ -355,9 +355,7 @@ const HrdDashboard = () => {
     <aside className="w-64 bg-slate-50 border-r border-slate-200 flex flex-col h-screen sticky top-0 z-20 shrink-0 hidden md:flex">
       <div className="p-6">
         <div className="flex items-center gap-3">
-          <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white shadow-sm">
-            <Zap size={18} className="fill-white" />
-          </div>
+          <img src="/logo.png" alt="Pelet Logo" className="w-8 h-8 object-contain drop-shadow-sm" />
           <div>
             <div className="font-bold text-indigo-700 tracking-tight leading-tight">Pelet</div>
             <div className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">HR Portal</div>
