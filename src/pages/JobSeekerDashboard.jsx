@@ -7,7 +7,7 @@ import {
 } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 
-const JobSeekerDashboard = () => {
+const JobSeekerDasbor = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -18,11 +18,11 @@ const JobSeekerDashboard = () => {
   else if (location.pathname.includes('/all_jobs')) activeView = 'all_jobs';
   else if (location.pathname.includes('/profile')) activeView = 'profile';
 
-  const [profile, setProfile] = useState(null);
+  const [profile, setProfil] = useState(null);
   const [matches, setMatches] = useState([]);
   const [allJobs, setAllJobs] = useState([]);
   const [aiAnalysis, setAiAnalysis] = useState(null);
-  const [applications, setApplications] = useState([]);
+  const [applications, setLamaran] = useState([]);
   const [resumes, setResumes] = useState([]);
   const [selectedJob, setSelectedJob] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -32,7 +32,7 @@ const JobSeekerDashboard = () => {
   const [interviewQuestions, setInterviewQuestions] = useState(null);
   const [loadingInterview, setLoadingInterview] = useState(false);
   
-  const [profileForm, setProfileForm] = useState({
+  const [profileForm, setProfilForm] = useState({
      fullName: '', phoneNumber: '', address: '', avatarUrl: '', bio: '', education: '', portfolioUrl: '', linkedinUrl: ''
   });
 
@@ -97,13 +97,13 @@ const JobSeekerDashboard = () => {
 
       if (profData.status === 'success') {
          const p = profData.data?.profile || profData.data || null;
-         setProfile(p);
+         setProfil(p);
          if (p) {
             let parsedApplicantData = p.applicantData || p.applicant_data || {};
             if (typeof parsedApplicantData === 'string') {
               try { parsedApplicantData = JSON.parse(parsedApplicantData); } catch (e) { parsedApplicantData = {}; }
             }
-            setProfileForm({
+            setProfilForm({
                fullName: p.fullName || p.full_name || '',
                phoneNumber: p.phoneNumber || p.phone_number || '',
                address: p.address || '',
@@ -193,11 +193,25 @@ const JobSeekerDashboard = () => {
            realMatches.sort((a, b) => b.match_score - a.match_score);
         }
         
+        // Pad with remaining jobs to ensure we always have 3 matches shown
+        if (realMatches.length < 3) {
+           const existingIds = new Set(realMatches.map(m => m.id));
+           const remainingJobs = validJobs.filter(job => !existingIds.has(job.id));
+           for (const job of remainingJobs) {
+              if (realMatches.length >= 3) break;
+              realMatches.push({
+                 ...job,
+                 match_score: 0,
+                 ai_analysis: 'Tidak cocok dengan profil Anda namun tetap direkomendasikan untuk dieksplorasi.'
+              });
+           }
+        }
+        
         setMatches(realMatches.slice(0, 3));
       }
       if (appsData.status === 'success') {
         const rawApps = Array.isArray(appsData.data) ? appsData.data : (appsData.data?.applications);
-        setApplications(Array.isArray(rawApps) ? rawApps : []);
+        setLamaran(Array.isArray(rawApps) ? rawApps : []);
       }
     } catch (e) {
       console.error(e);
@@ -329,7 +343,7 @@ const JobSeekerDashboard = () => {
     });
   };
 
-  async function handleSaveProfile(e) {
+  async function handleSaveProfil(e) {
     e.preventDefault();
     try {
       const payload = {};
@@ -427,7 +441,7 @@ const JobSeekerDashboard = () => {
     (m.category_id || '').toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const filteredApplications = applications.filter(a => 
+  const filteredLamaran = applications.filter(a => 
     (a.title || a.job_title || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
     (a.status || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
     (a.category_id || '').toLowerCase().includes(searchQuery.toLowerCase())
@@ -443,7 +457,7 @@ const JobSeekerDashboard = () => {
             <img src="/logo.png" alt="Pelet Logo" className="w-8 h-8 object-contain drop-shadow-sm" />
             <div>
               <div className="font-bold text-indigo-700 tracking-tight leading-tight">Pelet</div>
-              <div className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">Seeker Portal</div>
+              <div className="text-[9px] font-bold tracking-widest text-slate-500 uppercase">Portal Pelamar</div>
             </div>
           </Link>
         </div>
@@ -451,23 +465,23 @@ const JobSeekerDashboard = () => {
         <div className="flex-1 px-4 py-6 space-y-1">
           <Link to="/dashboard" className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${activeView === 'dashboard' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/50'}`}>
             <LayoutDashboard size={18} />
-            Dashboard
+            Dasbor
           </Link>
           <Link to="/dashboard/matches" className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${(activeView === 'matches' || activeView === 'job_detail') ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/50'}`}>
             <Briefcase size={18} />
-            My Matches
+            Kecocokan Saya
           </Link>
           <Link to="/dashboard/all_jobs" className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${(activeView === 'all_jobs') ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/50'}`}>
             <Search size={18} />
-            All Jobs
+            Semua Lowongan
           </Link>
           <Link to="/dashboard/applications" className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${activeView === 'applications' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/50'}`}>
             <FileText size={18} />
-            Applications
+            Lamaran
           </Link>
           <Link to="/dashboard/profile" className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${activeView === 'profile' ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/50'}`}>
             <User size={18} />
-            Profile
+            Profil
           </Link>
         </div>
 
@@ -477,7 +491,7 @@ const JobSeekerDashboard = () => {
             className="flex items-center gap-3 px-4 py-3 text-slate-600 hover:text-red-600 hover:bg-red-50 rounded-xl font-medium transition-colors w-full"
           >
             <LogOut size={18} />
-            Log Out
+            Keluar
           </button>
         </div>
       </aside>
@@ -515,7 +529,7 @@ const JobSeekerDashboard = () => {
                   })()
                 }</div>
               </div>
-              <img src={profile?.avatarUrl || "https://i.pravatar.cc/150?img=11"} alt="Profile" className="w-10 h-10 rounded-full border-2 border-white shadow-sm" />
+              <img src={profile?.avatarUrl || "https://i.pravatar.cc/150?img=11"} alt="Profil" className="w-10 h-10 rounded-full border-2 border-white shadow-sm" />
             </div>
           </div>
         </header>
@@ -525,8 +539,8 @@ const JobSeekerDashboard = () => {
           
           {/* Page Header */}
           <div>
-            <h1 className="text-3xl font-medium text-slate-900 mb-1">Your Career Overview</h1>
-            <p className="text-slate-500">AI-powered insights for your skill growth</p>
+            <h1 className="text-3xl font-medium text-slate-900 mb-1">Ikhtisar Karir Anda</h1>
+            <p className="text-slate-500">Wawasan yang didukung AI untuk pertumbuhan keahlian Anda</p>
           </div>
 
           {/* Top Stats Grid */}
@@ -536,17 +550,17 @@ const JobSeekerDashboard = () => {
             <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-xs font-bold tracking-wider text-slate-500 uppercase">Top Match Score</h3>
+                  <h3 className="text-xs font-bold tracking-wider text-slate-500 uppercase">Score Pencocokan Tertinggi</h3>
                 </div>
                 <div className="text-5xl font-bold text-indigo-700 mb-6">
                   {matches.length > 0 ? Math.max(...matches.map(m => Math.round(m.match_score || 0))) : 0}<span className="text-2xl text-indigo-400">%</span>
                 </div>
                 <div className="space-y-2 mb-6">
                   <div className="flex justify-between text-sm font-medium">
-                    <span className="text-slate-700">Highest Alignment</span>
+                    <span className="text-slate-700"><b>Paling Sesuai</b></span>
                     <span className="text-slate-900 font-bold">
-                      {matches.length > 0 && Math.max(...matches.map(m => Math.round(m.match_score || 0))) > 80 ? 'High' : 
-                       matches.length > 0 && Math.max(...matches.map(m => Math.round(m.match_score || 0))) > 50 ? 'Medium' : 'Low'}
+                      {matches.length > 0 && Math.max(...matches.map(m => Math.round(m.match_score || 0))) > 80 ? 'Tinggi' : 
+                       matches.length > 0 && Math.max(...matches.map(m => Math.round(m.match_score || 0))) > 50 ? 'Sedang' : 'Rendah'}
                     </span>
                   </div>
                   <div className="h-2.5 w-full bg-slate-100 rounded-full overflow-hidden">
@@ -562,14 +576,14 @@ const JobSeekerDashboard = () => {
                 <div className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 mb-3">
                   <Send size={16} className="rotate-45 -mt-1 ml-1" />
                 </div>
-                <div className="text-xs font-bold tracking-wider text-slate-500 uppercase mb-1">Applications Sent</div>
+                <div className="text-xs font-bold tracking-wider text-slate-500 uppercase mb-1">Lamaran terkirim</div>
                 <div className="text-3xl font-bold text-slate-900">{applications.length}</div>
               </div>
               <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex-1 flex flex-col justify-center">
                 <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center text-amber-600 mb-3">
                   <TrendingUp size={16} />
                 </div>
-                <div className="text-xs font-bold tracking-wider text-slate-500 uppercase mb-1">Interview Rate</div>
+                <div className="text-xs font-bold tracking-wider text-slate-500 uppercase mb-1">Tingkat Wawancara</div>
                 <div className="text-3xl font-bold text-slate-900">
                   {applications.length > 0 ? Math.round((applications.filter(a => a.status === 'accepted').length / applications.length) * 100) : 0}%
                 </div>
@@ -580,12 +594,12 @@ const JobSeekerDashboard = () => {
             <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100">
               <div className="flex items-center gap-2 mb-6">
                 <Zap size={18} className="text-indigo-600 fill-indigo-600" />
-                <h3 className="font-bold text-slate-900">AI CV Analysis</h3>
+                <h3 className="font-bold text-slate-900">Analisis AI CV</h3>
               </div>
               
               <div className="space-y-6">
                 <div>
-                  <h4 className="text-[10px] font-bold tracking-widest text-slate-400 uppercase mb-4">Top Matched Skills</h4>
+                  <h4 className="text-[10px] font-bold tracking-widest text-slate-400 uppercase mb-4">Top Keterampilan yang Cocok</h4>
                   <div className="space-y-3">
                     {aiAnalysis && aiAnalysis.top_units ? (
                       <div className="flex flex-wrap gap-2">
@@ -611,9 +625,9 @@ const JobSeekerDashboard = () => {
             {/* Recommended Jobs */}
             <div className="lg:col-span-2">
               <div className="flex justify-between items-end mb-4">
-                <h2 className="text-lg font-bold text-slate-900">Recommended Jobs</h2>
+                <h2 className="text-lg font-bold text-slate-900">Lowongan yang Direkomendasikan</h2>
                 <button onClick={() => navigate('/dashboard/matches')} className="text-sm font-bold text-indigo-600 hover:text-indigo-700 flex items-center gap-1">
-                  View all matches <ChevronRight size={16} />
+                  Lihat semua kecocokan <ChevronRight size={16} />
                 </button>
               </div>
               
@@ -639,7 +653,7 @@ const JobSeekerDashboard = () => {
                       </div>
                     </div>
                     <button onClick={() => handleViewJobDetail(job)} className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm rounded-xl transition-colors shadow-sm">
-                      View Details
+                      Lihat Detail
                     </button>
                   </div>
                 ))}
@@ -654,8 +668,8 @@ const JobSeekerDashboard = () => {
         {activeView === 'matches' && (
           <div className="p-8 max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div>
-              <h1 className="text-3xl font-medium text-slate-900 mb-2">Matched Jobs</h1>
-              <p className="text-slate-500">Our AI has analyzed your profile and identified <span className="text-indigo-600 font-bold">{matches.length} opportunities</span> tailored for you.</p>
+              <h1 className="text-3xl font-medium text-slate-900 mb-2">Pekerjaan Cocok</h1>
+              <p className="text-slate-500">AI kami telah menganalisis profil Anda dan mengidentifikasi <span className="text-indigo-600 font-bold">{matches.length} peluang</span> yang cocok untuk Anda.</p>
             </div>
             
             {loading ? (
@@ -686,12 +700,10 @@ const JobSeekerDashboard = () => {
                           </div>
                         </div>
                       </div>
-                      <p className="text-sm text-slate-600 mb-6 line-clamp-3">
-                        {job.description || 'Tidak ada deskripsi yang disediakan.'}
-                      </p>
+                      
                     </div>
                     <button onClick={() => handleViewJobDetail(job)} className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm rounded-xl transition-colors shadow-sm">
-                      View Details
+                      Lihat Detail
                     </button>
                   </div>
                 ))}
@@ -704,8 +716,8 @@ const JobSeekerDashboard = () => {
         {activeView === 'all_jobs' && (
           <div className="p-8 max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div>
-              <h1 className="text-3xl font-medium text-slate-900 mb-2">All Jobs</h1>
-              <p className="text-slate-500">Explore <span className="text-indigo-600 font-bold">{allJobs.length} opportunities</span> available across all categories.</p>
+              <h1 className="text-3xl font-medium text-slate-900 mb-2">Semua Lowongan</h1>
+              <p className="text-slate-500">Jelajahi <span className="text-indigo-600 font-bold">{allJobs.length} peluang</span> yang tersedia di semua kategori.</p>
             </div>
             
             {loading ? (
@@ -734,12 +746,10 @@ const JobSeekerDashboard = () => {
                           </div>
                         </div>
                       </div>
-                      <p className="text-sm text-slate-600 mb-6 line-clamp-3">
-                        {job.description || 'Tidak ada deskripsi yang disediakan.'}
-                      </p>
+                      
                     </div>
                     <button onClick={() => handleViewJobDetail(job)} className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm rounded-xl transition-colors shadow-sm">
-                      View Details
+                      Lihat Detail
                     </button>
                   </div>
                 ))}
@@ -751,7 +761,7 @@ const JobSeekerDashboard = () => {
         {activeView === 'job_detail' && (
           <div className="p-8 max-w-5xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <button onClick={() => navigate('/dashboard/matches')} className="flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-indigo-600 transition-colors mb-2">
-              <ArrowLeft size={16} /> Back to Matches
+              <ArrowLeft size={16} /> Kembali ke Kecocokan
             </button>
             
             {!selectedJob || !selectedJob.title ? (
@@ -790,7 +800,7 @@ const JobSeekerDashboard = () => {
                   if (!appliedApp) {
                     return (
                       <button onClick={() => handleApplyJob(selectedJob.id)} className="px-8 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl shadow-md transition-colors flex items-center gap-2">
-                        <Send size={18} /> Apply Now
+                        <Send size={18} /> Lamar Sekarang
                       </button>
                     );
                   }
@@ -806,7 +816,7 @@ const JobSeekerDashboard = () => {
                     <div className="flex flex-col items-end gap-3">
                       <div className={`px-6 py-2.5 ${sColor} border font-bold rounded-xl flex items-center gap-2 shadow-sm`}>
                         {appliedApp.status === 'accepted' ? <CheckCircle size={18} /> : appliedApp.status === 'rejected' ? <XCircle size={18} /> : <Clock size={18} />}
-                        Application Status: <span className="uppercase tracking-wider ml-1">{appliedApp.status}</span>
+                        Status Lamaran: <span className="uppercase tracking-wider ml-1">{appliedApp.status}</span>
                       </div>
 
                     </div>
@@ -855,7 +865,7 @@ const JobSeekerDashboard = () => {
 
                   <div className="bg-[#f8f9fc] rounded-[24px] p-8 border border-slate-100 relative shadow-sm">
                     <div className="absolute top-6 right-6 text-slate-400"><Zap size={18}/></div>
-                    <h3 className="font-bold text-lg mb-4 text-slate-900">Role Overview</h3>
+                    <h3 className="font-bold text-lg mb-4 text-slate-900">Deskripsi</h3>
                     <p className="text-[14px] text-slate-600 leading-relaxed whitespace-pre-wrap">
                       {selectedJob.description || 'Tidak ada deskripsi lebih lanjut.'}
                     </p>
@@ -863,7 +873,7 @@ const JobSeekerDashboard = () => {
                 </div>
                 <div className="md:col-span-1 space-y-6">
                   <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
-                    <h3 className="font-bold text-slate-900 mb-4">Job Overview</h3>
+                    <h3 className="font-bold text-slate-900 mb-4">Deskripsi</h3>
                     <div className="space-y-4">
                       <div>
                         <div className="text-xs text-slate-400 font-bold tracking-wider uppercase mb-1">Experience Level</div>
@@ -887,8 +897,8 @@ const JobSeekerDashboard = () => {
         {activeView === 'applications' && (
           <div className="p-8 max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div>
-              <h1 className="text-3xl font-medium text-slate-900 mb-2">Your Applications</h1>
-              <p className="text-slate-500">Tracking your progress across <span className="text-indigo-600 font-bold">{applications.length} opportunities</span>.</p>
+              <h1 className="text-3xl font-medium text-slate-900 mb-2">Lamaran Anda</h1>
+              <p className="text-slate-500">Melacak kemajuan Anda di <span className="text-indigo-600 font-bold">{applications.length} peluang</span>.</p>
             </div>
 
             <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
@@ -907,14 +917,14 @@ const JobSeekerDashboard = () => {
                 <table className="w-full text-left">
                   <thead className="bg-slate-50/80 text-[10px] font-bold text-slate-400 uppercase tracking-widest border-b border-slate-100">
                     <tr>
-                      <th className="px-8 py-5">Job Details</th>
+                      <th className="px-8 py-5">Detail Pekerjaan</th>
                       <th className="px-8 py-5">Status</th>
-                      <th className="px-8 py-5">Applied Date</th>
-                      <th className="px-8 py-5 text-right">Action</th>
+                      <th className="px-8 py-5">Tanggal Melamar</th>
+                      <th className="px-8 py-5 text-right">Aksi</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-100">
-                    {filteredApplications.length > 0 ? filteredApplications.map((app) => (
+                    {filteredLamaran.length > 0 ? filteredLamaran.map((app) => (
                       <tr key={app.id || app.application_id} className="hover:bg-slate-50/50 transition-colors">
                         <td className="px-8 py-5">
                           <div className="font-bold text-sm text-slate-900 mb-0.5">{app.title || app.job_title || 'Unknown Job'}</div>
@@ -935,7 +945,7 @@ const JobSeekerDashboard = () => {
                         <td className="px-8 py-5 text-right">
                           <button onClick={() => {
                             handleViewJobDetail({ id: app.job_id });
-                          }} className="text-sm font-bold text-indigo-600 hover:text-indigo-800">View Details</button>
+                          }} className="text-sm font-bold text-indigo-600 hover:text-indigo-800">Lihat Detail</button>
                         </td>
                       </tr>
                     )) : (
@@ -954,52 +964,52 @@ const JobSeekerDashboard = () => {
         {activeView === 'profile' && (
           <div className="p-8 max-w-3xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div>
-              <h1 className="text-3xl font-medium text-slate-900 mb-2">My Profile</h1>
-              <p className="text-slate-500">Update your personal information and manage your uploaded CVs.</p>
+              <h1 className="text-3xl font-medium text-slate-900 mb-2">My Profil</h1>
+              <p className="text-slate-500">Perbarui informasi pribadi Anda dan kelola CV yang Anda unggah.</p>
             </div>
             
             <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100">
               <h2 className="text-lg font-bold text-slate-900 mb-6">Edit Information</h2>
-              <form onSubmit={handleSaveProfile} className="space-y-6">
+              <form onSubmit={handleSaveProfil} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">Full Name</label>
-                    <input type="text" value={profileForm.fullName} onChange={e => setProfileForm({...profileForm, fullName: e.target.value})} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-600/20 outline-none transition-all" />
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">Nama Lengkap</label>
+                    <input type="text" value={profileForm.fullName} onChange={e => setProfilForm({...profileForm, fullName: e.target.value})} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-600/20 outline-none transition-all" />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">Phone Number</label>
-                    <input type="text" value={profileForm.phoneNumber} onChange={e => setProfileForm({...profileForm, phoneNumber: e.target.value})} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-600/20 outline-none transition-all" />
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">Nomor Telepon</label>
+                    <input type="text" value={profileForm.phoneNumber} onChange={e => setProfilForm({...profileForm, phoneNumber: e.target.value})} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-600/20 outline-none transition-all" />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Address</label>
-                  <input type="text" value={profileForm.address} onChange={e => setProfileForm({...profileForm, address: e.target.value})} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-600/20 outline-none transition-all" />
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">Alamat</label>
+                  <input type="text" value={profileForm.address} onChange={e => setProfilForm({...profileForm, address: e.target.value})} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-600/20 outline-none transition-all" />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Avatar URL</label>
-                  <input type="text" value={profileForm.avatarUrl} onChange={e => setProfileForm({...profileForm, avatarUrl: e.target.value})} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-600/20 outline-none transition-all" />
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">URL Profil (Avatar)</label>
+                  <input type="text" value={profileForm.avatarUrl} onChange={e => setProfilForm({...profileForm, avatarUrl: e.target.value})} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-600/20 outline-none transition-all" />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">Bio / Headline</label>
-                  <textarea value={profileForm.bio} onChange={e => setProfileForm({...profileForm, bio: e.target.value})} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-600/20 outline-none transition-all h-24 resize-none" placeholder="Experienced Frontend Developer..."></textarea>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">Bio / Ringkasan</label>
+                  <textarea value={profileForm.bio} onChange={e => setProfilForm({...profileForm, bio: e.target.value})} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-600/20 outline-none transition-all h-24 resize-none" placeholder="Pengembang Frontend Berpengalaman..."></textarea>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">Education</label>
-                    <input type="text" value={profileForm.education} onChange={e => setProfileForm({...profileForm, education: e.target.value})} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-600/20 outline-none transition-all" placeholder="S1 Teknik Informatika..." />
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">Pendidikan</label>
+                    <input type="text" value={profileForm.education} onChange={e => setProfilForm({...profileForm, education: e.target.value})} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-600/20 outline-none transition-all" placeholder="S1 Teknik Informatika..." />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">Portfolio URL</label>
-                    <input type="url" value={profileForm.portfolioUrl} onChange={e => setProfileForm({...profileForm, portfolioUrl: e.target.value})} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-600/20 outline-none transition-all" placeholder="https://portfolio.dev" />
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">URL Portofolio</label>
+                    <input type="url" value={profileForm.portfolioUrl} onChange={e => setProfilForm({...profileForm, portfolioUrl: e.target.value})} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-600/20 outline-none transition-all" placeholder="https://portfolio.dev" />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-slate-700 mb-2">LinkedIn URL</label>
-                  <input type="url" value={profileForm.linkedinUrl} onChange={e => setProfileForm({...profileForm, linkedinUrl: e.target.value})} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-600/20 outline-none transition-all" placeholder="https://linkedin.com/in/username" />
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">URL LinkedIn</label>
+                  <input type="url" value={profileForm.linkedinUrl} onChange={e => setProfilForm({...profileForm, linkedinUrl: e.target.value})} className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-indigo-600/20 outline-none transition-all" placeholder="https://linkedin.com/in/username" />
                 </div>
                 <div className="flex justify-end pt-4">
                   <button type="submit" className="px-6 py-3 bg-indigo-600 text-white font-bold rounded-xl shadow-md shadow-indigo-200 hover:bg-indigo-700 transition-colors">
-                    Save Profile
+                    Save Profil
                   </button>
                 </div>
               </form>
@@ -1098,4 +1108,4 @@ const JobSeekerDashboard = () => {
   );
 };
 
-export default JobSeekerDashboard;
+export default JobSeekerDasbor;

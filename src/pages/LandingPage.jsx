@@ -10,15 +10,7 @@ const LandingPage = () => {
   const [uploading, setUploading] = useState(false);
 
   const handleUploadClick = () => {
-    if (!userRole) {
-      navigate('/login');
-      return;
-    }
-    if (userRole !== 'user') {
-      alert('Hanya Job Seeker yang dapat mengunggah CV.');
-      return;
-    }
-    fileInputRef.current.click();
+    navigate('/resources');
   };
 
   const handleFileChange = async (e) => {
@@ -125,8 +117,8 @@ const LandingPage = () => {
             <span className="text-lg font-bold text-indigo-600 tracking-tight">Pelet</span>
           </Link>
           <div className="hidden md:flex gap-6 text-sm font-medium text-slate-600">
-            <Link to="/" className="text-indigo-600 border-b-2 border-indigo-600 pb-1">Find Jobs</Link>
-            <Link to="/resources" className="hover:text-indigo-600 transition-colors">AI CV Analyzer</Link>
+            <Link to="/" className="text-indigo-600 border-b-2 border-indigo-600 pb-1">Cari Pekerjaan</Link>
+            <Link to="/resources" className="hover:text-indigo-600 transition-colors">Analisis CV AI</Link>
           </div>
         </div>
         <div className="flex items-center gap-4">
@@ -144,8 +136,8 @@ const LandingPage = () => {
             </div>
           ) : (
             <>
-              <Link to="/register" className="text-sm font-medium text-indigo-600 px-4 py-2 hover:bg-indigo-50 rounded-lg transition-colors">Register</Link>
-              <Link to="/login" className="text-sm font-medium text-white bg-indigo-600 px-5 py-2 rounded-lg shadow-sm hover:bg-indigo-700 transition-colors">Login</Link>
+              <Link to="/register" className="text-sm font-medium text-indigo-600 px-4 py-2 hover:bg-indigo-50 rounded-lg transition-colors">Daftar</Link>
+              <Link to="/login" className="text-sm font-medium text-white bg-indigo-600 px-5 py-2 rounded-lg shadow-sm hover:bg-indigo-700 transition-colors">Masuk</Link>
             </>
           )}
         </div>
@@ -155,26 +147,17 @@ const LandingPage = () => {
       <section className="px-8 py-20 max-w-7xl mx-auto grid md:grid-cols-2 gap-12 items-center">
         <div className="space-y-8">
           <h1 className="text-5xl md:text-6xl font-extrabold text-slate-900 leading-tight tracking-tight">
-            Find Jobs That<br />Truly Match<br />Your Skills with<br />AI
+            Temukan Pekerjaan<br />Yang Cocok<br />Dengan Keahlian Anda<br />Berkat AI
           </h1>
           <p className="text-lg text-slate-600 max-w-md leading-relaxed">
-            Stop scrolling through irrelevant listings. Our neural matching engine analyzes your deep technical expertise to bridge the gap between your talent and your next career milestone.
+            Berhenti menelusuri lowongan yang tidak relevan. Mesin pencocokan cerdas kami menganalisis keahlian teknis Anda untuk menjembatani bakat Anda dengan pencapaian karier berikutnya.
           </p>
           <div className="flex items-center gap-4">
-            <input 
-              type="file" 
-              ref={fileInputRef} 
-              onChange={handleFileChange} 
-              accept="application/pdf" 
-              className="hidden" 
-            />
             <button 
               onClick={handleUploadClick} 
-              disabled={uploading}
-              className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-medium shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-all hover:-translate-y-0.5 disabled:opacity-70 disabled:hover:translate-y-0 flex items-center gap-2"
+              className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-medium shadow-lg shadow-indigo-200 hover:bg-indigo-700 transition-all hover:-translate-y-0.5 flex items-center gap-2"
             >
-              {uploading ? <Loader2 size={18} className="animate-spin" /> : null}
-              {uploading ? 'Processing AI...' : 'Upload CV'}
+              Upload CV
             </button>
           </div>
           <div className="flex items-center gap-3 pt-4">
@@ -185,7 +168,7 @@ const LandingPage = () => {
                 </div>
               ))}
             </div>
-            <span className="text-sm text-slate-500 font-medium">Trusted by many people</span>
+            <span className="text-sm text-slate-500 font-medium">Dipercayai oleh para Pencari Kerja</span>
           </div>
         </div>
         
@@ -214,7 +197,7 @@ const LandingPage = () => {
           </div>
           <div className="mt-6">
             <div className="flex justify-between items-end mb-2">
-               <span className="text-sm font-medium text-slate-700">Matching Skills...</span>
+               <span className="text-sm font-medium text-slate-700">Mencocokkan Keahlian...</span>
                <span className="text-sm font-bold text-indigo-600">99% Precision</span>
             </div>
             <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
@@ -230,17 +213,17 @@ const LandingPage = () => {
       <section className="bg-white py-24 border-t border-slate-100">
         <div className="max-w-7xl mx-auto px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4">How It Works</h2>
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">Cara Kerja Sistem</h2>
             <p className="text-slate-500 max-w-xl mx-auto">
-              Our 3-step semantic alignment protocol ensures you only see opportunities that value your specific expertise.
+              Protokol penyelarasan semantik 3 langkah kami memastikan Anda hanya melihat peluang yang benar-benar menghargai keahlian spesifik yang Anda miliki.
             </p>
           </div>
           
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { icon: FileText, title: "Semantic Upload", desc: "Upload your CV or portfolio. Our AI doesn't just read keywords; it understands the context and impact of your work history." },
-              { icon: Cpu, title: "Deep Analysis", desc: "We map your skills against a live database of thousands of high-intent job postings from world-class tech companies." },
-              { icon: Sparkles, title: "Bridge The Gap", desc: "Receive a curated list of 'Perfect Matches.' Direct introductions and fast-tracked application statuses guaranteed." }
+              { icon: FileText, title: "Unggahan Semantik", desc: "Unggah CV atau portofolio Anda. AI kami tidak sekadar membaca kata kunci; melainkan memahami konteks dan dampak riwayat kerja Anda." },
+              { icon: Cpu, title: "Analisis Mendalam", desc: "Kami memetakan keterampilan Anda terhadap database berisi ribuan lowongan pekerjaan dari perusahaan teknologi kelas dunia." },
+              { icon: Sparkles, title: "Jembatani Kesenjangan", desc: "Dapatkan daftar kurasi 'Kecocokan Sempurna'. Perkenalan langsung dan status lamaran jalur cepat terjamin." }
             ].map((feature, i) => (
               <div key={i} className="p-8 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:border-indigo-100 transition-all hover:-translate-y-1 group">
                 <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
@@ -256,16 +239,16 @@ const LandingPage = () => {
 
       {/* Features Split */}
       <section className="py-24 max-w-7xl mx-auto px-8 grid md:grid-cols-2 gap-16 items-center">
-        {/* For Talent */}
+        {/* Untuk Talenta */}
         <div>
-          <div className="text-xs font-bold tracking-wider text-slate-400 uppercase mb-4">For Talent</div>
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-10">Elevate Your Career Path</h2>
+          <div className="text-xs font-bold tracking-wider text-slate-400 uppercase mb-4">Untuk Talenta</div>
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-10">Tingkatkan Jalur Karier Anda</h2>
           
           <div className="space-y-8">
             {[
-              { icon: EyeOff, title: "Stealth Matching", desc: "Apply with confidence. Your identity is shielded from current employers until a match is confirmed." },
-              { icon: TrendingUp, title: "Salary Benchmarking", desc: "AI-driven insights on your market value based on real-time data from matching roles." },
-              { icon: Crosshair, title: "Skill Gap Analysis", desc: "Personalized learning paths to help you qualify for the high-paying roles you desire." }
+              { icon: EyeOff, title: "Pencocokan Rahasia", desc: "Lamar dengan percaya diri. Identitas Anda dirahasiakan dari atasan saat ini hingga kecocokan dikonfirmasi." },
+              { icon: TrendingUp, title: "Patokan Gaji", desc: "Wawasan berbasis AI tentang nilai pasar Anda berdasarkan data langsung dari peran yang cocok." },
+              { icon: Crosshair, title: "Analisis Kesenjangan Keterampilan", desc: "Jalur pembelajaran personal untuk membantu Anda memenuhi kualifikasi peran bergaji tinggi yang Anda inginkan." }
             ].map((item, i) => (
               <div key={i} className="flex gap-4 group cursor-pointer">
                 <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 group-hover:scale-110 transition-transform">
@@ -280,21 +263,21 @@ const LandingPage = () => {
           </div>
         </div>
 
-        {/* For Recruiters */}
+        {/* Untuk Perekrut */}
         {!userRole && (
           <div className="bg-slate-50 rounded-3xl p-10 border border-slate-100 relative overflow-hidden shadow-sm">
           <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-100/50 rounded-full blur-3xl -mr-20 -mt-20"></div>
           
           <div className="relative z-10">
             <span className="inline-block px-3 py-1 bg-indigo-100 text-indigo-700 text-xs font-bold uppercase tracking-wider rounded-full mb-6">
-              For Recruiters
+              Untuk Perekrut
             </span>
-            <h2 className="text-3xl font-bold text-slate-900 mb-8">Hire with Precision</h2>
+            <h2 className="text-3xl font-bold text-slate-900 mb-8">Rekrut dengan Presisi</h2>
             
             <div className="space-y-4 mb-10">
               {[
-                { icon: Users, title: "Pre-vetted Candidates", desc: "Skip the initial screening. Our AI ensures candidates meet 95% of your core requirements." },
-                { icon: Clock, title: "Reduce Time-to-Hire", desc: "Average reduction of 40% in time spent from posting to first interview." }
+                { icon: Users, title: "Kandidat Terseleksi", desc: "Lewati seleksi awal. AI kami memastikan kandidat memenuhi 95% persyaratan inti Anda." },
+                { icon: Clock, title: "Kurangi Waktu Perekrutan", desc: "Rata-rata mengurangi waktu hingga 40% sejak lowongan diposting hingga wawancara pertama." }
               ].map((item, i) => (
                 <div key={i} className="flex gap-4 bg-white p-5 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600">
@@ -309,7 +292,7 @@ const LandingPage = () => {
             </div>
             
             <button onClick={() => navigate('/login')} className="w-full py-4 bg-slate-900 text-white rounded-xl font-medium flex items-center justify-center gap-2 hover:bg-slate-800 transition-colors shadow-lg hover:shadow-xl group">
-              Enter Recruiter Portal <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
+              Masuk Portal Perekrut <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
             </button>
           </div>
         </div>
@@ -332,16 +315,16 @@ const LandingPage = () => {
           </div>
           
           <div className="relative z-10">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">Ready to find your<br/>perfect career match?</h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">Siap menemukan karier yang paling cocok untuk Anda?</h2>
             <p className="text-indigo-100 mb-10 max-w-lg mx-auto text-lg leading-relaxed">
-              Join thousands of tech professionals who found their dream roles using Pelet.
+              Bergabunglah dengan ribuan profesional teknologi yang menemukan peran impian mereka menggunakan Pelet.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button 
                 onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 className="px-8 py-4 bg-white text-indigo-600 font-bold rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all w-full sm:w-auto"
               >
-                Get Started Now
+                Mulai Sekarang
               </button>
             </div>
           </div>
@@ -356,14 +339,14 @@ const LandingPage = () => {
               <span className="text-lg font-bold text-indigo-600 tracking-tight">Pelet</span>
             </div>
             <p className="text-xs text-slate-500 leading-relaxed">
-              Bridging the gap between raw talent and enterprise excellence through ethical artificial intelligence and high-precision mapping.
+              Menjembatani kesenjangan antara bakat mentah dan keunggulan perusahaan melalui kecerdasan buatan yang etis dan pemetaan presisi tinggi.
             </p>
           </div>
         </div>
         <div className="border-t border-slate-100">
           <div className="max-w-7xl mx-auto px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-[10px] font-bold tracking-wider text-slate-400 uppercase">
-              © 2026 Pelet. All rights reserved.
+              © 2026 Pelet. Hak cipta dilindungi undang-undang.
             </div>
 
           </div>
