@@ -26,6 +26,7 @@ const JobSeekerDasbor = () => {
   const [resumes, setResumes] = useState([]);
   const [selectedJob, setSelectedJob] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   
   const [showInterviewModal, setShowInterviewModal] = useState(false);
@@ -195,6 +196,21 @@ const JobSeekerDasbor = () => {
         
         // Pad with remaining jobs to ensure we always have 3 matches shown if user has a CV
         const currentResumes = resumesData.status === 'success' ? (resumesData.data?.resumes || []) : [];
+        
+        let isAnalyzingStorage = localStorage.getItem('isAnalyzing') === 'true';
+        
+        if (currentResumes.length === 0) {
+           isAnalyzingStorage = false;
+           localStorage.removeItem('isAnalyzing');
+        }
+
+        if ((currentResumes.length > 0 && rawRecs.length === 0) || isAnalyzingStorage) {
+           setIsAnalyzing(true);
+        } else {
+           setIsAnalyzing(false);
+           if (rawRecs.length > 0) localStorage.removeItem('isAnalyzing');
+        }
+
         if (currentResumes.length > 0 && realMatches.length < 3) {
            const existingIds = new Set(realMatches.map(m => m.id));
            const remainingJobs = validJobs.filter(job => !existingIds.has(job.id));
@@ -388,10 +404,23 @@ const JobSeekerDasbor = () => {
          alert('CV terhapus!');
          setAiAnalysis(null);
          setMatches([]);
+         localStorage.removeItem('isAnalyzing');
          fetchData();
       }
     } catch (err) {}
   }
+
+  useEffect(() => {
+    let interval;
+    if (isAnalyzing) {
+      interval = setInterval(() => {
+        fetchData(true);
+      }, 5000);
+    }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [isAnalyzing]);
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
@@ -420,6 +449,7 @@ const JobSeekerDasbor = () => {
     if (selectedJob && selectedJob.id && !selectedJob.ai_analysis && matches.length > 0) {
       const matchedJob = matches.find(m => m.id === selectedJob.id);
       if (matchedJob && matchedJob.ai_analysis) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setSelectedJob(prev => ({
           ...prev,
           ai_analysis: matchedJob.ai_analysis,
@@ -432,6 +462,7 @@ const JobSeekerDasbor = () => {
         }));
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [matches, selectedJob?.id]);
 
 
@@ -541,12 +572,43 @@ const JobSeekerDasbor = () => {
           </div>
         </header>
 
-        {activeView === 'dashboard' && (
+        {activeView === 'dashboard' && isAnalyzing && (
+          <div className="p-8 max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500 text-center py-24">
+            <div className="w-16 h-16 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-6 animate-pulse shadow-sm">
+              <Sparkles size={32} />
+            </div>
+            <h2 className="text-2xl font-bold text-slate-900 mb-2">AI Sedang Menganalisis CV Anda</h2>
+            <p className="text-slate-500 max-w-md mx-auto mb-8">Sistem kami sedang mengekstrak keahlian Anda dan mencocokkannya dengan puluhan ribu lowongan. Proses ini memakan waktu beberapa menit.</p>
+            
+            <div className="max-w-xs mx-auto mb-8">
+              <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden relative">
+                <div className="absolute top-0 bottom-0 left-0 w-1/2 bg-indigo-600 rounded-full animate-[pulse_2s_ease-in-out_infinite]"></div>
+              </div>
+              <p className="text-[11px] font-bold text-slate-400 mt-3 uppercase tracking-widest animate-pulse">Menghitung Kecocokan...</p>
+            </div>
+
+            <div className="flex flex-col items-center gap-3">
+              <button onClick={() => window.location.reload()} className="px-6 py-2.5 bg-indigo-600 text-white rounded-xl font-bold shadow-sm hover:bg-indigo-700 transition-colors">
+                Muat Ulang Halaman
+              </button>
+              <button onClick={async () => {
+                 try {
+                    alert("Sedang memicu ulang analisis AI... (Ini mungkin memakan waktu 10-15 detik)");
+                    await fetchWithAuth('/api/recommendations/jobs');
+                    window.location.reload();
+                 } catch(e) {}
+              }} className="text-xs text-indigo-600 font-bold hover:underline">
+                Masih tertahan? Klik di sini untuk memicu ulang analisis AI.
+              </button>
+            </div>
+          </div>
+        )}
+        {activeView === 'dashboard' && !isAnalyzing && (
           <div className="p-8 max-w-7xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
           
           {/* Page Header */}
           <div>
-            <h1 className="text-3xl font-medium text-slate-900 mb-1">Ikhtisar Karir Anda</h1>
+            <h1 className="text-3xl font-medium text-slate-900 mb-1">Review Karir Anda</h1>
             <p className="text-slate-500">Wawasan yang didukung AI untuk pertumbuhan keahlian Anda</p>
           </div>
 

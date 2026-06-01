@@ -401,7 +401,7 @@ const HrdDasbor = () => {
   const renderDasbor = () => (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500">
       {renderHeader(
-        "Ikhtisar Bakat", 
+        "review keseluruhan kandidat", 
         "Wawasan berbasis AI untuk Rekrutmen Pelet"
       )}
 

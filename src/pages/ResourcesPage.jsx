@@ -48,6 +48,7 @@ const ResourcesPage = () => {
 
     setIsUploading(true);
     setProgress(10);
+    localStorage.setItem('isAnalyzing', 'true');
     
     const progressInterval = setInterval(() => {
       setProgress(prev => {
@@ -125,6 +126,7 @@ const ResourcesPage = () => {
       setIsUploading(false);
       setProgress(0);
     } finally {
+      localStorage.removeItem('isAnalyzing');
       e.target.value = '';
     }
   };
@@ -174,7 +176,7 @@ const ResourcesPage = () => {
             presisi AI.
           </h1>
           <p className="text-lg text-slate-600 max-w-md leading-relaxed">
-            Unggah CV Anda dan biarkan mesin SkillBridge kami memetakan keahlian Anda ke berbagai peluang global dalam hitungan detik. Tidak perlu lagi input data manual.
+            Unggah CV Anda dan biarkan mesin Pelet kami memetakan keahlian Anda ke berbagai peluang global. Tidak perlu lagi input data manual.
           </p>
           
           <div className="flex gap-4">

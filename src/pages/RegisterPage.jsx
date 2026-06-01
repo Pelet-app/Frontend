@@ -64,13 +64,13 @@ const RegisterPage = () => {
             </Link>
 
             <h1 className="text-4xl md:text-5xl font-medium text-slate-900 leading-[1.15] tracking-tight mb-6">
-              Elevate your<br />
-              <span className="text-indigo-600">career trajectory</span><br />
-              with AI precision.
+              Tingkatkan<br />
+              <span className="text-indigo-600">Karirmu</span><br />
+              dengan presisi AI.
             </h1>
             
             <p className="text-slate-500 leading-relaxed max-w-sm">
-              Connecting elite talent with world-class opportunities through sophisticated algorithmic matching.
+              Menghubungkan talenta terbaik dengan peluang terbaik melalui AI.
             </p>
           </div>
 
@@ -92,7 +92,7 @@ const RegisterPage = () => {
               </div>
             </div>
             <p className="text-xs text-slate-500 font-medium">
-              Joined by 2,000+ top industry professionals this month.
+              Ratusan Pengguna Profesional Yang Tergabung Dalam Platform Ini.
             </p>
           </div>
         </div>
@@ -100,8 +100,8 @@ const RegisterPage = () => {
         {/* Right Side - Form */}
         <div className="w-full md:w-7/12 p-10 md:p-16 flex flex-col justify-center bg-white">
           <div className="max-w-md w-full mx-auto">
-            <h2 className="text-2xl md:text-3xl font-medium text-slate-900 mb-2">Create an account</h2>
-            <p className="text-sm text-slate-500 mb-8">Join Pelet to start your journey.</p>
+            <h2 className="text-2xl md:text-3xl font-medium text-slate-900 mb-2">Buat Akun</h2>
+            <p className="text-sm text-slate-500 mb-8">Bergabunglah Dengan Pelet Untuk Memulai Perjalanan Karirmu.</p>
 
             {/* Toggle Switch */}
             <div className="flex p-1 bg-slate-50 rounded-xl mb-8 border border-slate-100">
@@ -138,7 +138,7 @@ const RegisterPage = () => {
               )}
 
               <div className="space-y-1.5">
-                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Full Name</label>
+                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Nama Lengkap</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                     <User size={16} className="text-slate-400" />
@@ -156,7 +156,7 @@ const RegisterPage = () => {
 
               {userType === 'recruiter' && (
                 <div className="space-y-1.5">
-                  <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Company Name</label>
+                  <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Nama Perusahaan</label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                       <Briefcase size={16} className="text-slate-400" />
@@ -174,7 +174,7 @@ const RegisterPage = () => {
               )}
 
               <div className="space-y-1.5">
-                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Email Address</label>
+                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">Email</label>
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
                     <Mail size={16} className="text-slate-400" />
@@ -220,7 +220,7 @@ const RegisterPage = () => {
 
             <div className="mt-8 text-center">
               <p className="text-xs text-slate-500">
-                Already have an account? <Link to="/login" className="font-medium text-indigo-600 hover:text-indigo-700">Login</Link>
+                Sudah Punya Akun? <Link to="/login" className="font-medium text-indigo-600 hover:text-indigo-700">Masuk</Link>
               </p>
             </div>
           </div>
