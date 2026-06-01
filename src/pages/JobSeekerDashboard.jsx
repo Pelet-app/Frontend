@@ -174,7 +174,12 @@ const JobSeekerDashboard = () => {
                      ...realHrdJob,
                      id: r.job_id,
                      match_score: r.match_score || 0,
-                     ai_analysis: r.ai_analysis || ''
+                     ai_analysis: r.ai_analysis || '',
+                     top_units: r.top_units,
+                     gap_units: r.gap_units,
+                     missing_skills: r.missing_skills,
+                     matched_skills: r.matched_skills,
+                     kategori: r.kategori
                  };
               });
            
@@ -400,6 +405,8 @@ const JobSeekerDashboard = () => {
           top_units: matchedJob.top_units,
           gap_units: matchedJob.gap_units,
             missing_skills: matchedJob.missing_skills,
+            matched_skills: matchedJob.matched_skills,
+            kategori: matchedJob.kategori,
           match_score: matchedJob.match_score
         }));
       }
