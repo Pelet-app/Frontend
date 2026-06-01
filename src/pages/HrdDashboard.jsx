@@ -1007,7 +1007,13 @@ const HrdDasbor = () => {
                   })()
                 }</div>
               </div>
-              <img src={hrProfil?.avatarUrl || "https://i.pravatar.cc/150?img=11"} alt="Profil" className="w-10 h-10 rounded-full border-2 border-white shadow-sm object-cover" />
+              {hrProfil?.avatarUrl ? (
+                <img src={hrProfil.avatarUrl} alt="Profil" className="w-10 h-10 rounded-full border-2 border-white shadow-sm object-cover" />
+              ) : (
+                <div className="w-10 h-10 rounded-full border-2 border-white shadow-sm bg-indigo-600 flex items-center justify-center text-white font-bold text-lg">
+                  {(hrProfil?.fullName || 'H')[0].toUpperCase()}
+                </div>
+              )}
             </div>
           </div>
         </header>

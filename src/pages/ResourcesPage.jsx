@@ -276,45 +276,6 @@ const ResourcesPage = () => {
         </section>
       )}
 
-      {/* Feature Section */}
-      <section className="py-24 max-w-7xl mx-auto px-8 grid md:grid-cols-2 gap-16 items-center">
-        {/* Abstract Image */}
-        <div className="rounded-3xl overflow-hidden bg-slate-900 aspect-video relative shadow-2xl">
-          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Data code" className="w-full h-full object-cover opacity-50" />
-          <div className="absolute bottom-8 left-8 text-white">
-            <div className="text-[10px] font-bold uppercase tracking-wider text-slate-300 mb-1">Wawasan Pasar</div>
-            <div className="text-xl font-bold">Desain Karier Berbasis Data</div>
-          </div>
-        </div>
-
-        {/* Text Content */}
-        <div>
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-50 text-indigo-700 text-[10px] font-bold uppercase tracking-wider rounded-full mb-6">
-            <Zap size={12} className="fill-indigo-700" /> AI ENGINE V4.0
-          </span>
-          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-6">
-            Beyond a simple keyword match.
-          </h2>
-          <p className="text-slate-500 leading-relaxed mb-8">
-            Pelet understands the semantic relationship between your experiences. It doesn't just look for "Project Manager"; it identifies leadership, stakeholder management, and technical delivery capabilities.
-          </p>
-          <div className="space-y-4">
-            <div className="flex items-start gap-3">
-              <div className="w-6 h-6 rounded bg-indigo-50 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <Sparkles size={14} className="text-indigo-600" />
-              </div>
-              <p className="text-sm font-medium text-slate-700">Analisis kesenjangan instan untuk peran impian Anda.</p>
-            </div>
-            <div className="flex items-start gap-3">
-              <div className="w-6 h-6 rounded bg-indigo-50 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <TrendingUp size={14} className="text-indigo-600" />
-              </div>
-              <p className="text-sm font-medium text-slate-700">Rekomendasi kursus personal untuk meningkatkan kemampuan Anda.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Footer */}
       <footer className="border-t border-slate-200 bg-white">
         <div className="max-w-7xl mx-auto px-8 py-16 grid grid-cols-1 md:grid-cols-4 gap-12">

@@ -529,7 +529,13 @@ const JobSeekerDasbor = () => {
                   })()
                 }</div>
               </div>
-              <img src={profile?.avatarUrl || "https://i.pravatar.cc/150?img=11"} alt="Profil" className="w-10 h-10 rounded-full border-2 border-white shadow-sm" />
+              {profile?.avatarUrl ? (
+                <img src={profile.avatarUrl} alt="Profil" className="w-10 h-10 rounded-full border-2 border-white shadow-sm object-cover" />
+              ) : (
+                <div className="w-10 h-10 rounded-full border-2 border-white shadow-sm bg-indigo-600 flex items-center justify-center text-white font-bold text-lg">
+                  {(profile?.fullName || 'J')[0].toUpperCase()}
+                </div>
+              )}
             </div>
           </div>
         </header>
