@@ -193,8 +193,9 @@ const JobSeekerDasbor = () => {
            realMatches.sort((a, b) => b.match_score - a.match_score);
         }
         
-        // Pad with remaining jobs to ensure we always have 3 matches shown
-        if (realMatches.length < 3) {
+        // Pad with remaining jobs to ensure we always have 3 matches shown if user has a CV
+        const currentResumes = resumesData.status === 'success' ? (resumesData.data?.resumes || []) : [];
+        if (currentResumes.length > 0 && realMatches.length < 3) {
            const existingIds = new Set(realMatches.map(m => m.id));
            const remainingJobs = validJobs.filter(job => !existingIds.has(job.id));
            for (const job of remainingJobs) {
