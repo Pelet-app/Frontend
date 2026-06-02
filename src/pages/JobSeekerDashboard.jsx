@@ -481,6 +481,14 @@ const JobSeekerDasbor = () => {
     (a.category_id || '').toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+  const filteredAllJobs = allJobs.filter(j => 
+    (j.title || '').toLowerCase().includes(searchQuery.toLowerCase()) || 
+    (j.company_name || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (j.job_type || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (j.location_type || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (j.kategori || '').toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <div className="min-h-screen bg-slate-50 flex font-sans text-slate-800">
       
@@ -538,7 +546,7 @@ const JobSeekerDasbor = () => {
         {/* Top Header */}
         <header className="h-20 px-8 flex items-center justify-between border-b border-slate-200 bg-white/50 backdrop-blur-sm sticky top-0 z-10">
           <div className="relative w-96">
-            {(activeView === 'matches' || activeView === 'applications') && (
+            {(activeView === 'matches' || activeView === 'applications' || activeView === 'all_jobs') && (
               <>
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                 <input 
@@ -837,7 +845,7 @@ const JobSeekerDasbor = () => {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                {allJobs.map((job) => (
+                {filteredAllJobs.map((job) => (
                   <div key={job.id} className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col justify-between hover:shadow-md transition-shadow">
                     <div>
                       <div className="flex items-start gap-5 mb-5">
