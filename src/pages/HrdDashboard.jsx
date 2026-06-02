@@ -385,7 +385,10 @@ const HrdDasbor = () => {
           <LogOut size={18} />
           <span>Keluar</span>
         </button>
-      </div>
+      <div className="text-center text-[10px] font-bold tracking-wider text-slate-400 uppercase border-t border-slate-200 pt-4 mt-4">
+            © 2026 Pelet.by TIM CC26-PSU060
+          </div>
+        </div>
     </aside>
   );
 

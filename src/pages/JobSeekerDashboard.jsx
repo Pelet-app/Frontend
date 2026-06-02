@@ -18,6 +18,8 @@ const JobSeekerDasbor = () => {
   else if (location.pathname.includes('/all_jobs')) activeView = 'all_jobs';
   else if (location.pathname.includes('/profile')) activeView = 'profile';
 
+  const sourceView = location.state?.from || 'matches';
+
   const [profile, setProfil] = useState(null);
   const [matches, setMatches] = useState([]);
   const [allJobs, setAllJobs] = useState([]);
@@ -499,11 +501,11 @@ const JobSeekerDasbor = () => {
             <LayoutDashboard size={18} />
             Dasbor
           </Link>
-          <Link to="/dashboard/matches" className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${(activeView === 'matches' || activeView === 'job_detail') ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/50'}`}>
+          <Link to="/dashboard/matches" className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${(activeView === 'matches' || (activeView === 'job_detail' && (sourceView === 'matches' || sourceView === 'dashboard' || sourceView === 'applications'))) ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/50'}`}>
             <Briefcase size={18} />
             Kecocokan Saya
           </Link>
-          <Link to="/dashboard/all_jobs" className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${(activeView === 'all_jobs') ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/50'}`}>
+          <Link to="/dashboard/all_jobs" className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors ${(activeView === 'all_jobs' || (activeView === 'job_detail' && sourceView === 'all_jobs')) ? 'bg-indigo-600 text-white shadow-sm' : 'text-slate-600 hover:text-indigo-600 hover:bg-indigo-50/50'}`}>
             <Search size={18} />
             Semua Lowongan
           </Link>
@@ -525,7 +527,10 @@ const JobSeekerDasbor = () => {
             <LogOut size={18} />
             Keluar
           </button>
-        </div>
+        <div className="text-center text-[10px] font-bold tracking-wider text-slate-400 uppercase border-t border-slate-200 pt-4 mt-4">
+              © 2026 Pelet.by TIM CC26-PSU060
+            </div>
+          </div>
       </aside>
 
       {/* Main Content */}
@@ -712,7 +717,15 @@ const JobSeekerDasbor = () => {
                         <div className="pt-1">
                           <h3 className="font-bold text-lg text-slate-900 leading-tight mb-1 line-clamp-2">{job.title}</h3>
                           {job.company_name && (
-                            <div className="text-xs text-slate-500 font-medium mb-3 flex items-center gap-1.5"><Building2 size={12} className="text-indigo-500"/> {job.company_name}</div>
+                            <div className="text-xs text-slate-500 font-medium mb-3 flex items-center gap-1.5 flex-wrap">
+                              <span className="flex items-center gap-1.5"><Building2 size={12} className="text-indigo-500"/> {job.company_name}</span>
+                              {job.kategori && (
+                                <span className="flex items-center gap-1.5">
+                                  <span className="w-1 h-1 rounded-full bg-slate-300"></span>
+                                  <span className="text-indigo-600 font-bold">{job.kategori}</span>
+                                </span>
+                              )}
+                            </div>
                           )}
                           <div className="flex flex-wrap gap-2">
                             <span className="px-2.5 py-1 bg-slate-100 text-slate-600 rounded-lg text-[10px] font-bold capitalize">{job.location_type}</span>
@@ -760,7 +773,15 @@ const JobSeekerDasbor = () => {
                         <div className="pt-1.5 flex-1">
                           <h3 className="font-bold text-xl text-slate-900 mb-1.5 leading-tight">{job.title}</h3>
                           {job.company_name && (
-                            <div className="text-sm text-slate-500 font-medium mb-4 flex items-center gap-2"><Building2 size={14} className="text-indigo-500"/> {job.company_name}</div>
+                            <div className="text-sm text-slate-500 font-medium mb-4 flex items-center gap-2 flex-wrap">
+                              <span className="flex items-center gap-2"><Building2 size={14} className="text-indigo-500"/> {job.company_name}</span>
+                              {job.kategori && (
+                                <span className="flex items-center gap-2">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+                                  <span className="text-indigo-600 font-bold">{job.kategori}</span>
+                                </span>
+                              )}
+                            </div>
                           )}
                           <div className="flex flex-wrap gap-2">
                             <span className="px-3 py-1 bg-slate-50 text-slate-600 rounded-lg text-[11px] font-bold capitalize">{job.location_type}</span>
@@ -807,7 +828,15 @@ const JobSeekerDasbor = () => {
                         <div className="pt-1 flex-1">
                           <h3 className="font-bold text-xl text-slate-900 mb-1.5 leading-tight">{job.title}</h3>
                           {job.company_name && (
-                            <div className="text-sm text-slate-500 font-medium mb-3 flex items-center gap-2"><Building2 size={14} className="text-indigo-500"/> {job.company_name}</div>
+                            <div className="text-sm text-slate-500 font-medium mb-3 flex items-center gap-2 flex-wrap">
+                              <span className="flex items-center gap-2"><Building2 size={14} className="text-indigo-500"/> {job.company_name}</span>
+                              {job.kategori && (
+                                <span className="flex items-center gap-2">
+                                  <span className="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+                                  <span className="text-indigo-600 font-bold">{job.kategori}</span>
+                                </span>
+                              )}
+                            </div>
                           )}
                           <div className="flex flex-wrap gap-2">
                             <span className="px-3 py-1 bg-slate-50 text-slate-600 rounded-lg text-[11px] font-bold capitalize">{job.location_type}</span>
@@ -829,8 +858,8 @@ const JobSeekerDasbor = () => {
 
         {activeView === 'job_detail' && (
           <div className="p-8 max-w-5xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <button onClick={() => navigate('/dashboard/matches')} className="flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-indigo-600 transition-colors mb-2">
-              <ArrowLeft size={16} /> Kembali ke Kecocokan
+            <button onClick={() => navigate(sourceView === 'all_jobs' ? '/dashboard/all_jobs' : '/dashboard/matches')} className="flex items-center gap-2 text-sm font-bold text-slate-500 hover:text-indigo-600 transition-colors mb-2">
+              <ArrowLeft size={16} /> {sourceView === 'all_jobs' ? 'Kembali ke Semua Lowongan' : 'Kembali ke Kecocokan'}
             </button>
             
             {!selectedJob || !selectedJob.title ? (
@@ -847,6 +876,12 @@ const JobSeekerDasbor = () => {
                     {selectedJob.company_name && (
                        <div className="flex items-center gap-3 mb-4">
                          <span className="text-lg font-semibold text-indigo-600 flex items-center gap-2"><Building2 size={20}/> {selectedJob.company_name}</span>
+                           {selectedJob.kategori && (
+                              <>
+                                <span className="w-1.5 h-1.5 rounded-full bg-slate-300"></span>
+                                <span className="text-sm font-bold px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full border border-indigo-100">{selectedJob.kategori}</span>
+                              </>
+                           )}
                          {selectedJob.company_website && (
                             <a href={selectedJob.company_website} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-slate-400 hover:text-indigo-500 transition-colors flex items-center gap-1.5">
                                <Globe size={14}/> Website

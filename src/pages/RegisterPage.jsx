@@ -60,7 +60,7 @@ const RegisterPage = () => {
           <div className="relative z-10">
             <Link to="/" className="flex items-center gap-2 mb-16">
               <img src="/logo.png" alt="Pelet Logo" className="w-8 h-8 object-contain drop-shadow-sm" />
-              <span className="font-semibold text-indigo-600">Pelet</span>
+              <span className="font-semibold text-indigo-600">PELET (Pencari Lowongan Efektif & Tepat)</span>
             </Link>
 
             <h1 className="text-4xl md:text-5xl font-medium text-slate-900 leading-[1.15] tracking-tight mb-6">
@@ -94,6 +94,9 @@ const RegisterPage = () => {
             <p className="text-xs text-slate-500 font-medium">
               Ratusan Pengguna Profesional Yang Tergabung Dalam Platform Ini.
             </p>
+            <div className="mt-8 text-[10px] font-bold tracking-wider text-slate-400 uppercase">
+              © 2026 Pelet.by TIM CC26-PSU060
+            </div>
           </div>
         </div>
 

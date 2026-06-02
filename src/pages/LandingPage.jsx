@@ -346,7 +346,7 @@ const LandingPage = () => {
         <div className="border-t border-slate-100">
           <div className="max-w-7xl mx-auto px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="text-[10px] font-bold tracking-wider text-slate-400 uppercase">
-              © 2026 Pelet. Hak cipta dilindungi undang-undang.
+              © 2026 Pelet.by TIM CC26-PSU060.
             </div>
 
           </div>
