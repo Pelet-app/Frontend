@@ -253,7 +253,7 @@ const JobSeekerDasbor = () => {
 
       if (job && Object.keys(jobWithAi).length > 1) setSelectedJob(jobWithAi); // Optimistic update
       if (!location.pathname.includes('/job_detail')) {
-         navigate('/dashboard/job_detail');
+         navigate('/dashboard/job_detail', { state: { from: activeView } });
       }
       
       const res = await fetch(`/api/jobs/${jobId}`);
