@@ -1001,7 +1001,7 @@ const HrdDasbor = () => {
               onClick={() => navigate('/hrd-dashboard/profile')}
             >
               <div className="text-right hidden sm:block">
-                <div className="text-sm font-bold text-slate-900 leading-tight">{hrProfil?.fullName || 'HR Recruiter'}</div>
+                <div className="text-sm font-bold text-slate-900 leading-tight">{hrProfil?.fullName || hrProfil?.name || hrProfil?.full_name || '...'}</div>
                 <div className="text-xs text-slate-500">{
                   (() => {
                     let d = hrProfil?.hrdData || hrProfil?.hrd_data || hrProfil?.hrData || {};
@@ -1010,13 +1010,32 @@ const HrdDasbor = () => {
                   })()
                 }</div>
               </div>
-              {hrProfil?.avatarUrl ? (
-                <img src={hrProfil.avatarUrl} alt="Profil" className="w-10 h-10 rounded-full border-2 border-white shadow-sm object-cover" />
-              ) : (
+              {(() => {
+                const avatar = hrProfil?.avatarUrl || hrProfil?.avatar_url;
+                const hasValidAvatar = avatar && typeof avatar === 'string' && avatar.trim() !== '' && avatar.trim().toLowerCase() !== 'null';
+                
+                return hasValidAvatar ? (
+                  <img 
+                    src={avatar} 
+                    alt="Profil" 
+                    className="w-10 h-10 rounded-full border-2 border-white shadow-sm object-cover" 
+                    onError={(e) => { 
+                      e.target.onerror = null; 
+                      e.target.style.display = 'none';
+                      if (e.target.nextSibling) e.target.nextSibling.style.display = 'flex';
+                    }} 
+                  />
+                ) : null;
+              })()}
+              {(!(hrProfil?.avatarUrl || hrProfil?.avatar_url) || typeof (hrProfil?.avatarUrl || hrProfil?.avatar_url) !== 'string' || (hrProfil?.avatarUrl || hrProfil?.avatar_url).trim() === '' || (hrProfil?.avatarUrl || hrProfil?.avatar_url).trim().toLowerCase() === 'null') && (
                 <div className="w-10 h-10 rounded-full border-2 border-white shadow-sm bg-indigo-600 flex items-center justify-center text-white font-bold text-lg">
-                  {(hrProfil?.fullName || 'H')[0].toUpperCase()}
+                  {(hrProfil?.fullName || hrProfil?.name || hrProfil?.full_name || 'U')[0].toUpperCase()}
                 </div>
               )}
+              {/* Fallback div for when image fails to load */}
+              <div className="w-10 h-10 rounded-full border-2 border-white shadow-sm bg-indigo-600 items-center justify-center text-white font-bold text-lg" style={{display: 'none'}}>
+                  {(hrProfil?.fullName || hrProfil?.name || hrProfil?.full_name || 'U')[0].toUpperCase()}
+              </div>
             </div>
           </div>
         </header>
