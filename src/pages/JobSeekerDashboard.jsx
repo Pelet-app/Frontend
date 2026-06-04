@@ -551,7 +551,7 @@ const JobSeekerDasbor = () => {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                 <input 
                   type="text" 
-                  placeholder="Search skills, jobs, or insights..." 
+                  placeholder="Cari keahlian, pekerjaan, atau wawasan..." 
                   className="w-full pl-10 pr-4 py-2.5 bg-slate-100/80 border-none rounded-xl text-sm focus:ring-2 focus:ring-indigo-600/20 outline-none"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}

@@ -987,7 +987,7 @@ const HrdDasbor = () => {
                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
                 <input 
                   type="text" 
-                  placeholder="Search candidates, jobs..." 
+                  placeholder="Cari kandidat, pekerjaan..." 
                   className="w-full bg-slate-50 rounded-2xl pl-11 pr-4 py-2.5 text-sm border-none focus:ring-2 focus:ring-indigo-600/20 transition-all outline-none" 
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
